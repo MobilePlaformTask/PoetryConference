@@ -21,6 +21,7 @@ import com.avos.avoscloud.GetDataCallback;
 import com.avos.avoscloud.ProgressCallback;
 import com.avos.avoscloud.SaveCallback;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,15 +130,15 @@ public class EditUserInfoActivity extends AppCompatActivity {
                          * 如果实在有所需要，请直接下载源码引用。
                          */
 
-//                        String sdPath= Environment.getExternalStorageDirectory().getPath();
-//                        String fileName=sdPath+"/myphoto/"+System.currentTimeMillis()+".jpg";
-//                        uri= Uri.fromFile(new File(fileName));
-//
-//                        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-//                        startActivityForResult(intent,1);
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, 1);
+                        String sdPath= Environment.getExternalStorageDirectory().getPath();
+                        String fileName=sdPath+"/myphoto/"+System.currentTimeMillis()+".jpg";
+                        uri= Uri.fromFile(new File(fileName));
+
+                        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                        startActivityForResult(intent,1);
+//                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                        startActivityForResult(intent, 1);
 
                         //打开选择,本次允许选择的数量
 //                        ImagePicker.getInstance().setSelectLimit(maxImgCount - selImageList.size());
@@ -166,7 +167,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode==1){
-            uri = data.getData();
+//            uri = data.getData();
             imgUserInfoPhoto.setImageURI(uri);
 //            Toast.makeText(EditUserInfoActivity.this,uri.toString(),Toast.LENGTH_SHORT).show();
             System.out.print(Environment.getExternalStorageDirectory() + uri.getPath());
