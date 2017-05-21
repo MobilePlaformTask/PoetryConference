@@ -3,7 +3,9 @@ package com.example.wangshimeng.poetry;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.avos.avoscloud.AVException;
@@ -12,73 +14,70 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
     private TextView txtRecord_precision,txtMistakesNumber,txtRecordScore;
+    private RatingBar rtbScoreResult;
     String value;//参数recordId
+    int type;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
         txtRecord_precision= (TextView) findViewById(R.id.txtRecord_precision);
         txtMistakesNumber= (TextView) findViewById(R.id.txtMistakesNumber);
         txtRecordScore= (TextView) findViewById(R.id.txtRecordScore);
+        rtbScoreResult= (RatingBar) findViewById(R.id.rtbScoreResult);
 
         //使用Intent对象得到传递来的参数
         Intent intent = getIntent();
         value= intent.getStringExtra("record_id");
+        type = intent.getIntExtra("type",1);
+
+        System.out.println(value+"value");
+
         AVQuery<AVObject> query = new AVQuery<>("Record");
         query.getInBackground(value, new GetCallback<AVObject>() {
             @Override
             public void done(AVObject record, AVException e) {
-
                 txtRecord_precision.setText(record.getString("record_precision"));
-
+                rtbScoreResult.setRating(5*Float.parseFloat(record.getString("record_precision")));
+                txtRecordScore.setText("+"+(int)(Float.parseFloat(record.getString("record_precision"))*100));
                 AVQuery<AVObject> query2 = new AVQuery<>("Mistakes");
                 //query2.include("question_set_id");
                 query2.include("question_id");
-                query2.orderByAscending("question_number");
+
                 query2.whereEqualTo("record_id", AVObject.createWithoutData("Record",record.getObjectId()));
                 query2.findInBackground(new FindCallback<AVObject>() {
                     @Override
                     public void done(List<AVObject> list, AVException e) {
 
+                        List<Integer> misList=new ArrayList<Integer>();
                         String numbers="";
                         for(AVObject mistake:list){
 
                             AVObject question=mistake.getAVObject("question_id");
-                            numbers+=question.getInt("question_number");
+                            misList.add(question.getInt("question_number"));
+                        }
+                        Collections.sort(misList);
+                        for(int i=0;i<misList.size();i++){
+                            numbers+=misList.get(i);
                             numbers+=",";
                         }
                         txtMistakesNumber.setText(numbers.substring(0,numbers.length()-1));
-                    }
-                });
-
-            }
-        });
-
-        query.findInBackground(new FindCallback<AVObject>() {
-            @Override
-            public void done(List<AVObject> list, AVException e) {
-                AVObject record=list.get(0);
-                txtRecord_precision.setText(record.getString("record_precision"));
-
-
-                AVQuery<AVObject> query2 = new AVQuery<>("Mistakes");
-                //query2.include("question_set_id");
-                query2.include("Question");
-                query2.orderByAscending("question_number");
-                query2.whereEqualTo("record_id", AVObject.createWithoutData("Record",record.getObjectId()));
-                query2.findInBackground(new FindCallback<AVObject>() {
-                    @Override
-                    public void done(List<AVObject> list, AVException e) {
 
                     }
                 });
 
             }
         });
+
     }
 
     public void getanalysis(View v){
@@ -90,9 +89,30 @@ public class ResultActivity extends AppCompatActivity {
     }
     public void continuePlay(View v){
         Intent intent=new Intent(ResultActivity.this,GameActivity.class);
+        intent.putExtra("type",type+"");
         this.startActivity(intent);
     }
+
+    //重写返回键的方法
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+            //这里重写返回键
+            Intent intent=new Intent(ResultActivity.this,HomeActivity.class);
+            startActivity(intent);
+        }
+        return false;
+    }
+
+
+
+
+
 }
+
+
+
+
 
 
 //

@@ -47,6 +47,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtMenuUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -65,6 +66,7 @@
                         android:text="积分：" />
 
                     <TextView
+                        android:id="@+id/txtMenuScore"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
@@ -77,6 +79,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txtMenuSign"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -134,7 +137,7 @@
         <TextView
             style="@style/MenuTabText"
             android:text="修改密码"
-
+            android:onClick="changePassword"
             />
     </LinearLayout>
 
@@ -153,7 +156,8 @@
 
         <TextView
             style="@style/MenuTabText"
-            android:text="联系我们" />
+            android:text="联系我们"
+            android:onClick="contactUs"/>
     </LinearLayout>
 
 
@@ -173,8 +177,8 @@
 
         <TextView
             style="@style/MenuTabText"
-            android:text="设置"
-
+            android:text="个人中心"
+            android:onClick="goToCenter"
             />
     </LinearLayout>
 
@@ -210,7 +214,8 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:background="#ffffff"
-        android:gravity="center">
+        android:gravity="center"
+        android:onClick="backtoLogin">
 
         <ImageView
             android:layout_width="24dp"

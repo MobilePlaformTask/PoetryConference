@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,11 +17,13 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,14 +31,17 @@ import Entity.Mistakes;
 
 public class GameActivity extends AppCompatActivity {
 
-    private TextView stateprogressView, txtQuestionContent, txtQuestionContent2, txtQuestionContent41, txtQuestionContent43; // 各种状态信息
-    private Button btnAnswer1, btnAnswer2, btnAnswer3, btnWord1, btnWord2, btnWord3, btnWord4, btnWord5, btnWord6, btnWord7, btnWord8, btnWord9,btnCancelAns;// 4个答案选项按钮
-    private Button[] btnAns=new Button[5];
-    private Button[] btnWord=new Button[9];
-    private EditText txtQuestionAnswer2, txtQuestionAnswer3, txtQuestionAnswer42;
+    private TextView stateprogressView, txtQuestionContent, txtQuestionContent5,txtQuestionContent2, txtQuestionContent41, txtQuestionContent43, txtQuestionNumber;
+    private Button btnAnswer1, btnAnswer2, btnAnswer3, btnWord1, btnWord2, btnWord3, btnWord4, btnWord5, btnWord6, btnWord7, btnWord8, btnWord9, btnCancelAns3,btnCancelAns6;// 4个答案选项按钮
+    private Button[] btnAns = new Button[5];
+    private Button[] btnWord = new Button[9];
+    private Button[] btnAns3 = new Button[7];
+    private Button[] btnword3 = new Button[12];
+    private EditText txtQuestionAnswer2, txtQuestionAnswer3,txtQuestionAnswer6, txtQuestionAnswer42,txtQuestionAnswer5;
     private ProgressBar timeprogress; // 时间进度条
 
-    private int type3_current_id=0;
+    private int type3_current_id = 0;
+    private int type6_current_id = 0;
 
     //错题集
     private List<Mistakes> mistakes = new ArrayList<Mistakes>();
@@ -59,7 +65,7 @@ public class GameActivity extends AppCompatActivity {
     private AVObject questionSet;//当前questionSet
     private AVObject currentQuestion;//当前题目
     private String userAnswer;//用户的答题结果
-
+private int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +73,14 @@ public class GameActivity extends AppCompatActivity {
         i = 0;//题的编号  0-9
         mistakeCount = 0;//错题数量
 
-        getquestions();
+
+        stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
+        txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
+        timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
+
+        Intent intent = getIntent();
+        type = Integer.parseInt(intent.getStringExtra("type"));
+        getquestions(type);
 
     }
 
@@ -88,11 +101,13 @@ public class GameActivity extends AppCompatActivity {
                             setContentView(R.layout.question_type1);
 
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
+                            txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
+                            txtQuestionNumber.setText(i+"");
+
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
 
                             txtQuestionContent = (TextView) GameActivity.this.findViewById(R.id.txtQuestionContent1);
-
 
                             btnAnswer1 = (Button) GameActivity.this.findViewById(R.id.btnAnswer1);
                             btnAnswer1.setAlpha((float) 0.5);
@@ -114,57 +129,63 @@ public class GameActivity extends AppCompatActivity {
                         case 2:
                             setContentView(R.layout.question_type2);
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
+                            txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
+                            txtQuestionNumber.setText(i+"");
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
 
                             txtQuestionContent2 = (TextView) GameActivity.this.findViewById(R.id.txtQuestionContent2);
                             txtQuestionAnswer2 = (EditText) GameActivity.this.findViewById(R.id.txtQuestionAnswer2);
                             txtQuestionContent2.setText(currentQuestion.getString("question_content"));
-
-
-//上半句和下半句的处理
-
-
-
                             break;
                         case 3:
 
                             setContentView(R.layout.question_type3);
 
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
+                            txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
+                            txtQuestionNumber.setText(i+"");
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
-                            type3_current_id=0;
+                            type3_current_id = 0;
 
-                            btnCancelAns = (Button) GameActivity.this.findViewById(R.id.btnCancelAns);
+                            btnCancelAns3 = (Button) GameActivity.this.findViewById(R.id.btnCancelAns3);
                             txtQuestionAnswer3 = (EditText) GameActivity.this.findViewById(R.id.txtQuestionAnswer3);
-                            btnWord[0] = (Button) GameActivity.this.findViewById(R.id.btnWord1);
-                            btnWord[1] = (Button) GameActivity.this.findViewById(R.id.btnWord2);
-                            btnWord[2] = (Button) GameActivity.this.findViewById(R.id.btnWord3);
-                            btnWord[3] = (Button) GameActivity.this.findViewById(R.id.btnWord4);
-                            btnWord[4] = (Button) GameActivity.this.findViewById(R.id.btnWord5);
-                            btnWord[5] = (Button) GameActivity.this.findViewById(R.id.btnWord6);
-                            btnWord[6] = (Button) GameActivity.this.findViewById(R.id.btnWord7);
-                            btnWord[7] = (Button) GameActivity.this.findViewById(R.id.btnWord8);
-                            btnWord[8] = (Button) GameActivity.this.findViewById(R.id.btnWord9);
-                            btnAns[0]=(Button) GameActivity.this.findViewById(R.id.btnAns1);
-                            btnAns[1]=(Button) GameActivity.this.findViewById(R.id.btnAns2);
-                            btnAns[2]=(Button) GameActivity.this.findViewById(R.id.btnAns3);
-                            btnAns[3]=(Button) GameActivity.this.findViewById(R.id.btnAns4);
-                            btnAns[4]=(Button) GameActivity.this.findViewById(R.id.btnAns5);
+                            btnword3[0] = (Button) GameActivity.this.findViewById(R.id.Word1);
+                            btnword3[1] = (Button) GameActivity.this.findViewById(R.id.Word2);
+                            btnword3[2] = (Button) GameActivity.this.findViewById(R.id.Word3);
+                            btnword3[3] = (Button) GameActivity.this.findViewById(R.id.Word4);
+                            btnword3[4] = (Button) GameActivity.this.findViewById(R.id.Word5);
+                            btnword3[5] = (Button) GameActivity.this.findViewById(R.id.Word6);
+                            btnword3[6] = (Button) GameActivity.this.findViewById(R.id.Word7);
+                            btnword3[7] = (Button) GameActivity.this.findViewById(R.id.Word8);
+                            btnword3[8] = (Button) GameActivity.this.findViewById(R.id.Word9);
+                            btnword3[9] = (Button) GameActivity.this.findViewById(R.id.Word10);
+                            btnword3[10] = (Button) GameActivity.this.findViewById(R.id.Word11);
+                            btnword3[11] = (Button) GameActivity.this.findViewById(R.id.Word12);
+
+                            btnAns3[0] = (Button) GameActivity.this.findViewById(R.id.Ans1);
+                            btnAns3[1] = (Button) GameActivity.this.findViewById(R.id.Ans2);
+                            btnAns3[2] = (Button) GameActivity.this.findViewById(R.id.Ans3);
+                            btnAns3[3] = (Button) GameActivity.this.findViewById(R.id.Ans4);
+                            btnAns3[4] = (Button) GameActivity.this.findViewById(R.id.Ans5);
+                            btnAns3[5] = (Button) GameActivity.this.findViewById(R.id.Ans6);
+                            btnAns3[6] = (Button) GameActivity.this.findViewById(R.id.Ans7);
 
                             String question_content3 = currentQuestion.getString("question_content");
                             char[] question_char = question_content3.toCharArray();
                             System.out.println(question_char);
 
-                            for(int i=0;i<9;i++) {
-                                btnWord[i].setText(question_char[i] + "");
-                                btnWord[i].setOnClickListener(new MergeWordQuestion());
+                            for (int i = 0; i < 12; i++) {
+                                btnword3[i].setText(question_char[i] + "");
+                                btnword3[i].setOnClickListener(new MergeWordQuestion3());
                             }
                             break;
                         case 4:
                             setContentView(R.layout.question_type4);
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
+                            txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
+                            txtQuestionNumber.setText(i+"");
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
 
@@ -178,17 +199,72 @@ public class GameActivity extends AppCompatActivity {
                             txtQuestionContent43.setText(question_array[1]);
 
                             break;
+                        case 5:
+                            setContentView(R.layout.question_type5);
+                            stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
+                            txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
+                            txtQuestionNumber.setText(i+"");
+                            timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
+                            timeprogress.setMax(TOTALPROGRESS);
+
+                            txtQuestionContent5 = (TextView) GameActivity.this.findViewById(R.id.txtQuestionContent5);
+                            txtQuestionAnswer5 = (EditText) GameActivity.this.findViewById(R.id.txtQuestionAnswer5);
+                            txtQuestionContent5.setText(currentQuestion.getString("question_content"));
+                            break;
+                        case 6:
+
+                            setContentView(R.layout.question_type6);
+
+                            stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
+                            txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
+                            txtQuestionNumber.setText(i+"");
+                            timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
+                            timeprogress.setMax(TOTALPROGRESS);
+                            type6_current_id = 0;
+
+                            btnCancelAns3 = (Button) GameActivity.this.findViewById(R.id.btnCancelAns6);
+                            txtQuestionAnswer6 = (EditText) GameActivity.this.findViewById(R.id.txtQuestionAnswer6);
+                            btnWord[0] = (Button) GameActivity.this.findViewById(R.id.btnWord1);
+                            btnWord[1] = (Button) GameActivity.this.findViewById(R.id.btnWord2);
+                            btnWord[2] = (Button) GameActivity.this.findViewById(R.id.btnWord3);
+                            btnWord[3] = (Button) GameActivity.this.findViewById(R.id.btnWord4);
+                            btnWord[4] = (Button) GameActivity.this.findViewById(R.id.btnWord5);
+                            btnWord[5] = (Button) GameActivity.this.findViewById(R.id.btnWord6);
+                            btnWord[6] = (Button) GameActivity.this.findViewById(R.id.btnWord7);
+                            btnWord[7] = (Button) GameActivity.this.findViewById(R.id.btnWord8);
+                            btnWord[8] = (Button) GameActivity.this.findViewById(R.id.btnWord9);
+                            btnAns[0] = (Button) GameActivity.this.findViewById(R.id.btnAns1);
+                            btnAns[1] = (Button) GameActivity.this.findViewById(R.id.btnAns2);
+                            btnAns[2] = (Button) GameActivity.this.findViewById(R.id.btnAns3);
+                            btnAns[3] = (Button) GameActivity.this.findViewById(R.id.btnAns4);
+                            btnAns[4] = (Button) GameActivity.this.findViewById(R.id.btnAns5);
+
+                            String question_content6 = currentQuestion.getString("question_content");
+                            char[] question_char6 = question_content6.toCharArray();
+                            System.out.println(question_char6);
+
+                            for (int i = 0; i < 9; i++) {
+                                btnWord[i].setText(question_char6[i] + "");
+                                btnWord[i].setOnClickListener(new MergeWordQuestion());
+                            }
+                            break;
                         default:
                             setContentView(R.layout.question_type1);
                     }
                     break;
                 case SETPROGRESS:
-                    int progress = (Integer) msg.obj;
-                    stateprogressView.setText((10 - progress) + "");
+                    int progress =10;
+                    if((Integer) msg.obj==null){
+
+                    }
+                    else {
+                        progress = (Integer) msg.obj;
+                    }
+                    stateprogressView.setText(10-progress+"");
                     timeprogress.setProgress(progress);
                     break;
                 case NEXTQUESTION:
-
+                    timer.cancel();
                     // 检查错误
                     //CheckAnswer("sss");
 
@@ -209,32 +285,39 @@ public class GameActivity extends AppCompatActivity {
                             CheckAnswer(userAnswer);
                             //System.out.println("count"+mistakeCount);
                             break;
+                        case 5:
+                            userAnswer = txtQuestionAnswer5.getText().toString();
+                            CheckAnswer(userAnswer);
+                            break;
+                        case 6:
+                            CheckAnswer(userAnswer);
+                            break;
                     }
-                    timer.cancel();
-                    progressBarValue = 0; // 将时间进度重置为0
 
-
-                    if(i<4) {
+                    if (i < 10) {
+                        progressBarValue = 0; // 将时间进度重置为0
                         new Thread(new StartGame()).start();
-                    }
-                    else{
-
+                    } else {
                         System.out.println("count2" + mistakeCount);
-//题的数量减1
 
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//增加一条记录
+                        Double a=(AVUser.getCurrentUser().getInt("RightNumber")+10)*1.0;
+                        Double b=(AVUser.getCurrentUser().getInt("FinishNumber")+10)*1.0;
+                        //修改正确率
+                        AVUser.getCurrentUser().put("FinishNumber",AVUser.getCurrentUser().getInt("FinishNumber")+10);
+                        AVUser.getCurrentUser().put("RightNumber",AVUser.getCurrentUser().getInt("RightNumber")+10-mistakeCount);
+                        AVUser.getCurrentUser().put("user_precision",a/b+"");
+                        //修改积分
+                        AVUser.getCurrentUser().put("score",AVUser.getCurrentUser().getInt("score")+10*(10-mistakeCount));
+                        AVUser.getCurrentUser().saveInBackground();
+
+                        //增加一条答题记录
                         final AVObject record = new AVObject("Record");
                         // 构建对象
                         record.put("record_precision", (float) (10 -
                                 mistakeCount) / 10 + "");// 设置
                         record.put("question_set_id", questionSet);// 设置
-                        //record.put("user_id", AVUser.getCurrentUser());// 设置
-                        //record.put("record_id", NULL);//
+
+                        record.put("user_id", AVUser.getCurrentUser());
 
                         record.saveInBackground(new SaveCallback() {
                             @Override
@@ -267,8 +350,9 @@ public class GameActivity extends AppCompatActivity {
                                                             Intent(GameActivity.this, ResultActivity.class);
                                                     //传递参数
                                                     intent.putExtra
-                                                            ("record_id",record.getObjectId());
-
+                                                            ("type", type);
+                                                    intent.putExtra
+                                                            ("record_id", record.getObjectId());
 
                                                     GameActivity.this.startActivity(intent);
 
@@ -299,7 +383,7 @@ public class GameActivity extends AppCompatActivity {
         ;
     };
 
-    class SeceltQuestion implements View.OnClickListener{
+    class SeceltQuestion implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
@@ -325,34 +409,64 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     }
-    class MergeWordQuestion implements View.OnClickListener{
+
+    class MergeWordQuestion implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            if(type3_current_id<5) {
+            if (type6_current_id < 5) {
+
+                Button b = (Button) findViewById(v.getId());
+                userAnswer += b.getText().toString();
+                txtQuestionAnswer6.setText(userAnswer);
+
+                btnAns[type6_current_id].setText(b.getText().toString());
+                type6_current_id++;
+            }
+        }
+    }
+
+    public void cancelWord(View v) {
+        if (type6_current_id == 0) {
+
+        } else {
+            btnAns[type6_current_id - 1].setText("");
+            type6_current_id--;
+            userAnswer = userAnswer.substring(0, userAnswer.length() - 1);
+            txtQuestionAnswer6.setText(userAnswer);
+        }
+    }
+
+    class MergeWordQuestion3 implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if (type3_current_id < 7) {
 
                 Button b = (Button) findViewById(v.getId());
                 userAnswer += b.getText().toString();
                 txtQuestionAnswer3.setText(userAnswer);
 
-                btnAns[type3_current_id].setText(b.getText().toString());
+                btnAns3[type3_current_id].setText(b.getText().toString());
                 type3_current_id++;
             }
         }
     }
-    public void cancelWord(View v){
-        if(type3_current_id==0){
+    public void cancelWord3(View v) {
+        if (type3_current_id == 0) {
 
-        }
-        else{
-            btnAns[type3_current_id-1].setText("");
+        } else {
+            btnAns3[type3_current_id - 1].setText("");
             type3_current_id--;
-            userAnswer= userAnswer.substring(0,userAnswer.length()-1);
+            userAnswer = userAnswer.substring(0, userAnswer.length() - 1);
             txtQuestionAnswer3.setText(userAnswer);
         }
     }
 
-    // 初始化QuestionNum数组,随机抽取
+
+
+
+
     public class StartGame implements Runnable {
         @Override
         public void run() {
@@ -360,32 +474,18 @@ public class GameActivity extends AppCompatActivity {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-
-//                    if (i >= 4) {
-//                        handler.sendEmptyMessage(RESTARTGAME);
-//                    }
-
-                    // TODO Auto-generated method stub
-//                    else {
-                        if (progressBarValue == TOTALPROGRESS) {
-                            // 超出游戏时间，弹出对话框提示玩家
-                            //if (i < 4) {
-                                handler.sendEmptyMessage(NEXTQUESTION);
-                            //}
-//                            else {
-//                                handler.sendEmptyMessage(RESTARTGAME);
-//                            }
-
-                        } else {
-                            // 将信息传送给handler来更新进度条
-                            Message message = Message.obtain();
-                            message.obj = progressBarValue;
-                            message.what = SETPROGRESS;
-                            handler.sendMessage(message);
-                            // 时间进度自增
-                            progressBarValue++;
-                        }
+                    if (progressBarValue == TOTALPROGRESS) {
+                        handler.sendEmptyMessage(NEXTQUESTION);
+                    } else {
+                        // 将信息传送给handler来更新进度条
+                        Message message = Message.obtain();
+                        message.obj = progressBarValue;
+                        message.what = SETPROGRESS;
+                        handler.sendMessage(message);
+                        // 时间进度自增
+                        progressBarValue++;
                     }
+                }
 //                }
             }, 0, 1000);
 
@@ -418,9 +518,25 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    public void getquestions() {
+    public void getquestions(int type) {
+        //找到一套题
         AVQuery<AVObject> query1 = new AVQuery<>("Question_set");
-        query1.whereEqualTo("question_set_id", 5);
+        query1.whereEqualTo("module", type);
+
+        //取随机数
+        Random random = new Random();
+        int a=random.nextInt(10);
+        System.out.println("rand:"+a);
+//        int random=(int)(Math.random()*10);
+        if(type==1){
+            //现场模式
+            query1.whereEqualTo("question_set_id", a+11);
+        }
+        else{
+            query1.whereEqualTo("question_set_id", a+1);
+        }
+
+//        query1.whereEqualTo("question_set_id", a);
         query1.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {
@@ -490,5 +606,17 @@ public class GameActivity extends AppCompatActivity {
 //            }
 //        });
 
+
     }
+    //重写返回键的方法
+    public boolean onKeyDown(int keyCode,KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+            //这里重写返回键
+            timer.cancel();
+            finish();
+        }
+        return false;
+    }
+
 }

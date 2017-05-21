@@ -10,11 +10,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
         android:background="#3393e7"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp"></LinearLayout>
+        tools:layout_editor_absoluteY="0dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/returnn"
+            android:onClick="returnToHistory"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="题目解析"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="96dp"
+            android:textColor="#ffffff"
+            android:textSize="24sp"/>
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,18 +58,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtAnalysisQuestionName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="题目"
+                    android:text="1.选择题"
+                    android:layout_marginLeft="16dp"
                     android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/txtAnalysisQuestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="8dp"
                     android:text="题目"
                     android:textSize="16dp" />
             </LinearLayout>
@@ -63,25 +83,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="正确答案" />
 
-                <TextView
-                    android:id="@+id/txtTrueAnswer"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:text="正确答案:" />
+
+
+                    <TextView
+                        android:id="@+id/txtTrueAnswer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:text="A" />
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="A" />
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
-                    android:text="你的答案" />
+                    android:text="你的答案:" />
 
                 <TextView
                     android:id="@+id/txtFalseAnswer"
@@ -89,20 +123,25 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:text="A" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="解析:" />
+                android:layout_marginLeft="16dp"
+                android:text="解析:"
+                android:textSize="16dp"/>
 
 
             <TextView
                 android:id="@+id/txtAnalysis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:text="宋之问春风得意之日，已是武则天皇后实握朝政之时。武后承应“贞观”，励精图治，选拔人才，不拘一格，宋之问以才名与杨炯被召分直内文学馆，不久出授洛州（今河南洛阳市东北）参军。" />
 
         </LinearLayout>

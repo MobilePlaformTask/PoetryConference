@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 
 import java.util.ArrayList;
@@ -28,22 +29,21 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
-        System.out.println("123");
-        filllist();
-
+//        System.out.println("123");
         lstHistory = (ListView) findViewById(R.id.lstHistory);
         data = new ArrayList<AVObject>();
         lstHistory.setOnItemClickListener(new OnItemClickListenerImpl());
+
+        filllist();
     }
 
     public void filllist() {
-        System.out.println("22222");
+//        System.out.println("22222");
         AVQuery<AVObject> query2 = new AVQuery<>("Record");
         query2.include("question_set_id");
         query2.orderByDescending("record_id");
 
-        //
-        //query2.whereEqualTo("user_id", AVObject.createWithoutData("_User", AVUser.getCurrentUser().getObjectId()));
+        query2.whereEqualTo("user_id", AVObject.createWithoutData("_User", AVUser.getCurrentUser().getObjectId()));
         query2.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {
@@ -74,5 +74,11 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 
+    //返回
+    public void returnToHome(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, HomeActivity.class);
+        this.startActivity(intent);
+    }
 
 }
