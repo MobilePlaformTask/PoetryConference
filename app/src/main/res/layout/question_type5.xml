@@ -9,20 +9,37 @@
         android:layout_height="48dp"
         android:background="#3393e7">
 
-
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/returnn"
+            android:layout_gravity="center_vertical"
+            android:onClick="giveup"
+            android:layout_marginLeft="16dp"/>
         <TextView
+            android:id="@id/txtNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="返回"
-            android:textSize="20sp" />
+            android:text="1/10"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:layout_marginLeft="130dp"/>
+        <TextView
+            android:id="@id/stateprogress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0:59"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="110dp"/>
     </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:orientation="vertical">
 
 
@@ -30,33 +47,42 @@
         <ProgressBar
             android:id="@id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-        <TextView
-            android:id="@id/stateprogress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_gravity="center"
-            android:text="stateprogress" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"/>
 
-        <TextView
-            android:id="@id/txtQuestionNumber"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="" />
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+            <TextView
+                android:id="@id/txtQuestionNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="接上句"
+                android:textSize="16sp"
+                android:layout_marginLeft="16dp"/>
+            </LinearLayout>
         <EditText
             android:id="@+id/txtQuestionAnswer5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="请输入上一句"/>
+            android:hint="请输入上一句"
+            android:layout_marginTop="16dp"/>
         <TextView
             android:id="@+id/txtQuestionContent5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="timu2" />
+            android:text="题目"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
 
 
 

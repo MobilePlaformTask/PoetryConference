@@ -413,7 +413,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     setPic();
 
                     System.out.println(photoPath);
-                    photo = AVFile.withAbsoluteLocalPath("LeanCloud.png", photoPath);
+                    photo = AVFile.withAbsoluteLocalPath("LeanCloud"+AVUser.getCurrentUser().getUsername()+".png", photoPath);
                     photo.addMetaData("width", 100);
                     photo.addMetaData("height", 100);
                     photo.saveInBackground(new SaveCallback() {

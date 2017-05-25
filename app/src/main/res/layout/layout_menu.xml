@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/beijing1"
+        android:background="@drawable/menuback7"
         android:orientation="vertical">
 
 
@@ -38,7 +38,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="4dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/touxiang2" />
+                android:src="@drawable/touxiang" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

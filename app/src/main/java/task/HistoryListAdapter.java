@@ -59,13 +59,13 @@ public class HistoryListAdapter extends BaseAdapter {
         AVObject object = data.get(position);
 
         AVObject set=object.getAVObject("question_set_id");
-//        if(set.getInt("Module_type")==1){
-//            imgModel.setImageResource(R.drawable.tellus);
-//        }
-//        else{
-//            imgModel.setImageResource(R.drawable.model1);
-//        }
-        imgModel.setImageResource(R.drawable.model1);
+        if(set.getInt("module")==1){
+            imgModel.setImageResource(R.drawable.livetype);
+        }
+        else{
+            imgModel.setImageResource(R.drawable.normaltype);
+        }
+//        imgModel.setImageResource(R.drawable.model1);
 
         System.out.println((object.getCreatedAt()));
 

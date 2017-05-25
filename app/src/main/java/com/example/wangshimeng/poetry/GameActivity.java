@@ -1,7 +1,6 @@
 package com.example.wangshimeng.poetry;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,7 +30,7 @@ import Entity.Mistakes;
 
 public class GameActivity extends AppCompatActivity {
 
-    private TextView stateprogressView, txtQuestionContent, txtQuestionContent5,txtQuestionContent2, txtQuestionContent41, txtQuestionContent43, txtQuestionNumber;
+    private TextView stateprogressView,txtNumber, txtQuestionContent, txtQuestionContent5,txtQuestionContent2, txtQuestionContent41, txtQuestionContent43, txtQuestionNumber;
     private Button btnAnswer1, btnAnswer2, btnAnswer3, btnWord1, btnWord2, btnWord3, btnWord4, btnWord5, btnWord6, btnWord7, btnWord8, btnWord9, btnCancelAns3,btnCancelAns6;// 4个答案选项按钮
     private Button[] btnAns = new Button[5];
     private Button[] btnWord = new Button[9];
@@ -42,7 +41,7 @@ public class GameActivity extends AppCompatActivity {
 
     private int type3_current_id = 0;
     private int type6_current_id = 0;
-
+    int cc=0;
     //错题集
     private List<Mistakes> mistakes = new ArrayList<Mistakes>();
     private int i = 0;//题的编号  0-9
@@ -65,7 +64,7 @@ public class GameActivity extends AppCompatActivity {
     private AVObject questionSet;//当前questionSet
     private AVObject currentQuestion;//当前题目
     private String userAnswer;//用户的答题结果
-private int type;
+    private int type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +76,7 @@ private int type;
         stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
         txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
         timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
-
+        txtNumber= (TextView) GameActivity.this.findViewById(R.id.txtNumber);
         Intent intent = getIntent();
         type = Integer.parseInt(intent.getStringExtra("type"));
         getquestions(type);
@@ -103,6 +102,8 @@ private int type;
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
                             txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
                             txtQuestionNumber.setText(i+"");
+                            txtNumber = (TextView) GameActivity.this.findViewById(R.id.txtNumber);
+                            txtNumber.setText(i+"/10");
 
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
@@ -131,6 +132,8 @@ private int type;
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
                             txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
                             txtQuestionNumber.setText(i+"");
+                            txtNumber = (TextView) GameActivity.this.findViewById(R.id.txtNumber);
+                            txtNumber.setText(i+"/10");
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
 
@@ -145,6 +148,8 @@ private int type;
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
                             txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
                             txtQuestionNumber.setText(i+"");
+                            txtNumber = (TextView) GameActivity.this.findViewById(R.id.txtNumber);
+                            txtNumber.setText(i+"/10");
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
                             type3_current_id = 0;
@@ -186,6 +191,8 @@ private int type;
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
                             txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
                             txtQuestionNumber.setText(i+"");
+                            txtNumber = (TextView) GameActivity.this.findViewById(R.id.txtNumber);
+                            txtNumber.setText(i+"/10");
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
 
@@ -204,6 +211,8 @@ private int type;
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
                             txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
                             txtQuestionNumber.setText(i+"");
+                            txtNumber = (TextView) GameActivity.this.findViewById(R.id.txtNumber);
+                            txtNumber.setText(i+"/10");
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
 
@@ -218,6 +227,8 @@ private int type;
                             stateprogressView = (TextView) GameActivity.this.findViewById(R.id.stateprogress);
                             txtQuestionNumber = (TextView) GameActivity.this.findViewById(R.id.txtQuestionNumber);
                             txtQuestionNumber.setText(i+"");
+                            txtNumber = (TextView) GameActivity.this.findViewById(R.id.txtNumber);
+                            txtNumber.setText(i+"/10");
                             timeprogress = (ProgressBar) GameActivity.this.findViewById(R.id.progressBar);
                             timeprogress.setMax(TOTALPROGRESS);
                             type6_current_id = 0;
@@ -305,7 +316,12 @@ private int type;
                         //修改正确率
                         AVUser.getCurrentUser().put("FinishNumber",AVUser.getCurrentUser().getInt("FinishNumber")+10);
                         AVUser.getCurrentUser().put("RightNumber",AVUser.getCurrentUser().getInt("RightNumber")+10-mistakeCount);
-                        AVUser.getCurrentUser().put("user_precision",a/b+"");
+                        //控制小数点位数
+                        double c = a/b;
+                        java.text.DecimalFormat myformat=new java.text.DecimalFormat("0.00");
+                        String str = myformat.format(c);
+
+                        AVUser.getCurrentUser().put("user_precision",str);
                         //修改积分
                         AVUser.getCurrentUser().put("score",AVUser.getCurrentUser().getInt("score")+10*(10-mistakeCount));
                         AVUser.getCurrentUser().saveInBackground();
@@ -328,7 +344,10 @@ private int type;
 
                                     timer.cancel();
 //                                存储错误而题目
-                                    for (Mistakes mistake : mistakes) {
+//                                    cc=0;
+                                    for (final Mistakes mistake : mistakes) {
+//                                        cc++;
+//                                        Log.d("ccsize","cc"+cc);
                                         AVObject avobject = new AVObject
                                                 ("Mistakes");// 构建对象
                                         avobject.put("question_id",
@@ -339,23 +358,20 @@ private int type;
                                                 (record.getObjectId() + "-----1234567");
                                         avobject.put("mistake_answer",
                                                 mistake.getMistakeanswer());// 设置
+
                                         avobject.saveInBackground(new SaveCallback() {
                                             @Override
                                             public void done(AVException
                                                                      e) {
                                                 if (e == null) {
 
-                                                    //跳转到结果
-                                                    Intent intent = new
-                                                            Intent(GameActivity.this, ResultActivity.class);
-                                                    //传递参数
-                                                    intent.putExtra
-                                                            ("type", type);
-                                                    intent.putExtra
-                                                            ("record_id", record.getObjectId());
+//                                                    Log.d("ccsize","cc"+cc);
 
-                                                    GameActivity.this.startActivity(intent);
-                                                    GameActivity.this.finish();
+//                                                    if(cc ==mistakes.size()){
+                                                        //跳转到结果
+
+//                                                    }
+
                                                     // 存储成功
                                                     //System.out.println("jilu:" + record.getObjectId());
                                                 } else {
@@ -364,6 +380,25 @@ private int type;
                                             }
                                         });
                                     }
+
+                                    try {
+                                        Thread.sleep(3000);
+                                    } catch (InterruptedException e1) {
+                                        e1.printStackTrace();
+                                    }
+
+                                    Intent intent = new
+                                            Intent(GameActivity.this, ResultActivity.class);
+                                    //传递参数
+                                    intent.putExtra
+                                            ("type", type);
+                                    intent.putExtra
+                                            ("record_id", record.getObjectId());
+
+                                    startActivity(intent);
+                                    finish();
+
+
 
                                 } else {
                                     // 失败的话，请检查网络环境以及 SDK 配置是否正确
@@ -390,21 +425,22 @@ private int type;
             switch (v.getId()) {
                 case R.id.btnAnswer1:
                     userAnswer = "A";
-                    btnAnswer1.setBackgroundColor(Color.BLUE);
-                    btnAnswer2.setBackgroundColor(Color.GRAY);
-                    btnAnswer3.setBackgroundColor(Color.GRAY);
+
+                    btnAnswer1.setBackgroundResource(R.drawable.buttonstyle2);
+                    btnAnswer2.setBackgroundResource(R.drawable.buttonstyle);
+                    btnAnswer3.setBackgroundResource(R.drawable.buttonstyle);
                     break;
                 case R.id.btnAnswer2:
                     userAnswer = "B";
-                    btnAnswer2.setBackgroundColor(Color.BLUE);
-                    btnAnswer1.setBackgroundColor(Color.GRAY);
-                    btnAnswer3.setBackgroundColor(Color.GRAY);
+                    btnAnswer2.setBackgroundResource(R.drawable.buttonstyle2);
+                    btnAnswer1.setBackgroundResource(R.drawable.buttonstyle);
+                    btnAnswer3.setBackgroundResource(R.drawable.buttonstyle);
                     break;
                 case R.id.btnAnswer3:
                     userAnswer = "C";
-                    btnAnswer3.setBackgroundColor(Color.BLUE);
-                    btnAnswer1.setBackgroundColor(Color.GRAY);
-                    btnAnswer2.setBackgroundColor(Color.GRAY);
+                    btnAnswer3.setBackgroundResource(R.drawable.buttonstyle2);
+                    btnAnswer2.setBackgroundResource(R.drawable.buttonstyle);
+                    btnAnswer1.setBackgroundResource(R.drawable.buttonstyle);
                     break;
             }
         }
@@ -464,6 +500,11 @@ private int type;
     }
 
 
+
+    public void giveup(View v){
+        timer.cancel();
+        finish();
+    }
 
 
 
@@ -528,15 +569,15 @@ private int type;
         int a=random.nextInt(10);
         System.out.println("rand:"+a);
 //        int random=(int)(Math.random()*10);
-//        if(type==1){
-//            //现场模式
-//            query1.whereEqualTo("question_set_id", a+11);
-//        }
-//        else{
-//            query1.whereEqualTo("question_set_id", a+1);
-//        }
-        query1.whereEqualTo("question_set_id", 1);
-//        query1.whereEqualTo("question_set_id", a);
+        if(type==1){
+            //现场模式
+            query1.whereEqualTo("question_set_id", a+11);
+        }
+        else{
+            query1.whereEqualTo("question_set_id", a+1);
+        }
+//        query1.whereEqualTo("question_set_id", 1);
+
         query1.findInBackground(new FindCallback<AVObject>() {
             @Override
             public void done(List<AVObject> list, AVException e) {

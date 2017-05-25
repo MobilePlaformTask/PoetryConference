@@ -6,10 +6,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
@@ -106,7 +108,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void done(byte[] bytes, AVException e) {
                         // bytes 就是文件的数据流
-                        Log.d("baos len",bytes.length+"");
+//                        Log.d("baos len",bytes.length+"");
                         b = getPicFromBytes(bytes);
                         compressImage.compressImage(b);
                         btn_back.setImageBitmap(DrawCircleView.drawCircleView01(b));
@@ -198,27 +200,34 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent();
         intent.setClass(this, LoginActivity.class);
         this.startActivity(intent);
+        finish();
     }
 //
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-//            if((System.currentTimeMillis()-exitTime) > 2000){
-//                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-//                exitTime = System.currentTimeMillis();
-//            } else {
-////                finish();
-////                android.os.Process.killProcess(android.os.Process.myPid());   //获取PID
-////                System.exit(0);
-////                System.exit(0);
-////                ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-////                manager.restartPackage(getPackageName());
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+//                finish();
+//                android.os.Process.killProcess(android.os.Process.myPid());   //获取PID
+                System.exit(0);
+//                System.exit(0);
+//                ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+//                manager.restartPackage(getPackageName());
 //               finish();
-//               // SysApplication.getInstance().exit();
-//            }
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
+               // SysApplication.getInstance().exit();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+//    @Override
+//    public void onBackPressed() {
+//        finish();
 //    }
 
     //个人中心
@@ -226,6 +235,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent();
         intent.setClass(this, UserCenterActivity.class);
         this.startActivity(intent);
+//        finish();
     }
 
     //拖动中

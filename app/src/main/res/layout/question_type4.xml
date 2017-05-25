@@ -2,60 +2,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/poem02">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="#3393e7">
 
-
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/returnn"
+            android:onClick="giveup"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"/>
         <TextView
+            android:id="@id/txtNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="返回"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical">
-
-        <ProgressBar
-            android:id="@id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="300dp"
-            android:layout_height="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-
+            android:text="1/10"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
+            android:layout_marginLeft="130dp"/>
         <TextView
             android:id="@id/stateprogress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="stateprogress" />
+            android:text="0:59"
+            android:textSize="20sp"
+            android:textColor="#ffffff"
+            android:layout_marginLeft="110dp"/>
+    </LinearLayout>
 
-        <TextView
-            android:id="@id/txtQuestionNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@id/txtQuestionNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="补全诗句"
+                android:textSize="16sp"
+                android:layout_marginLeft="16dp"/>
+
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
             <TextView
                 android:id="@+id/txtQuestionContent41"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="timu4" />
+                android:text="题目" />
             <EditText
                 android:id="@+id/txtQuestionAnswer42"
                 android:layout_width="wrap_content"
@@ -65,7 +92,7 @@
                 android:id="@+id/txtQuestionContent43"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="timu4" />
+                android:text="题目" />
         </LinearLayout>
     </LinearLayout>
 

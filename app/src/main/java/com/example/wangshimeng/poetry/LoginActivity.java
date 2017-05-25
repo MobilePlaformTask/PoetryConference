@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(LoginActivity.this, HomeActivity.class);
             LoginActivity.this.startActivity(intent);
+            finish();
         }
 
     }
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(this, RegisterActivity.class);
         this.startActivity(intent);
+        finish();
     }
 
     public void forgetPassword(View view){

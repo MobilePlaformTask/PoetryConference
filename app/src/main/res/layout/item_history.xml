@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -24,7 +25,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -63,7 +64,7 @@
                     android:id="@+id/rtbScore"
                     style="?android:attr/ratingBarStyleIndicator"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="40dp"
                     android:isIndicator="true"
                     android:numStars="5"
                     android:rating="3.5" />

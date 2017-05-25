@@ -155,10 +155,19 @@ public class UserCenterActivity extends AppCompatActivity {
 
     //返回
     public void returnToHome(View view){
-        Intent intent = new Intent();
-        intent.setClass(this, HomeActivity.class);
-        this.startActivity(intent);
-        finish();
+//        Intent intent = new Intent();
+//        intent.setClass(this, HomeActivity.class);
+//        this.startActivity(intent);
+//        finish();
+        onBackPressed();
     }
+
+//    @Override
+//    public void onBackPressed() {
+//        Intent intent = new Intent();
+//        intent.setClass(this, HomeActivity.class);
+//        this.startActivity(intent);
+//        finish();
+//    }
 }
 

@@ -38,7 +38,7 @@
             android:layout_marginTop="0dp"
             android:orientation="vertical"
             android:layout_gravity="center"
-            android:background="@drawable/food">
+            android:background="@drawable/centerback1">
             <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/imgCenterPhoto"
                 android:layout_width="88dp"

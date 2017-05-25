@@ -92,6 +92,10 @@ public class ResultActivity extends AppCompatActivity {
         this.startActivity(intent);
         finish();
     }
+    public void returnToHistory(View v){
+        onBackPressed();
+    }
+
 //
 //    //重写返回键的方法
 //    public boolean onKeyDown(int keyCode,KeyEvent event) {

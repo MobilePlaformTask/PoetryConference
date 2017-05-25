@@ -29,6 +29,7 @@
             android:layout_centerHorizontal="true" />
         <TextView
             android:id="@+id/stateprogress"
+            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -38,6 +39,12 @@
 
         <TextView
             android:id="@+id/txtQuestionNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="" />
+        <TextView
+            android:id="@+id/txtNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="invisible"
