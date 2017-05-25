@@ -49,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:hint="用户名"
+                android:text="zz"
                 android:id="@+id/edtName"/>
         </LinearLayout>
 
@@ -68,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
+                android:text="1"
                 android:id="@+id/edtLoginPassword"
                 android:layout_marginLeft="10dp"
                 android:hint="密码"/>

@@ -33,15 +33,24 @@ public class RegisterActivity extends AppCompatActivity {
         user.setUsername(username);// 设置用户名
         user.setPassword(userPassword);// 设置密码
         user.setEmail(userEmail);// 设置邮箱
+        user.put("FinishNumber",0);
+        user.put("RightNumber",0);
+        user.put("score",0);
+        user.put("user_precision","0.0");
+
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(AVException e) {
                 if (e == null) {
                     // 注册成功
-                    Toast.makeText(getApplication(), "注册成功,请前往邮箱验证", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "注册成功", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent();
                     intent.setClass(getApplication(), LoginActivity.class);
-                    getApplication().startActivity(intent);
+
+                    startActivity(intent);
+                    finish();
+
                 } else {
                     // 失败的原因可能有多种，常见的是用户名已经存在。
                     Toast.makeText(getApplication(), "注册失败", Toast.LENGTH_SHORT).show();
@@ -72,5 +81,6 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(this, LoginActivity.class);
         this.startActivity(intent);
+        finish();
     }
 }

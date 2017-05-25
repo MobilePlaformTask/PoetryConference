@@ -76,9 +76,10 @@ public class HistoryActivity extends AppCompatActivity {
 
     //返回
     public void returnToHome(View view){
-        Intent intent = new Intent();
-        intent.setClass(this, HomeActivity.class);
-        this.startActivity(intent);
+//        Intent intent = new Intent();
+//        intent.setClass(this, HomeActivity.class);
+//        this.startActivity(intent);
+        onBackPressed();
     }
 
 }

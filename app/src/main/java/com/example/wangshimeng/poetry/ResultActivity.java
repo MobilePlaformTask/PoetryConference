@@ -3,7 +3,6 @@ package com.example.wangshimeng.poetry;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -81,7 +80,7 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void getanalysis(View v){
-        //跳转到结果
+        //跳转到解析
         Intent intent = new Intent(ResultActivity.this, AnalysisActivity.class);
         //传递参数
         intent.putExtra("record_id",value);
@@ -91,18 +90,19 @@ public class ResultActivity extends AppCompatActivity {
         Intent intent=new Intent(ResultActivity.this,GameActivity.class);
         intent.putExtra("type",type+"");
         this.startActivity(intent);
+        finish();
     }
-
-    //重写返回键的方法
-    public boolean onKeyDown(int keyCode,KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
-            //这里重写返回键
-            Intent intent=new Intent(ResultActivity.this,HomeActivity.class);
-            startActivity(intent);
-        }
-        return false;
-    }
+//
+//    //重写返回键的方法
+//    public boolean onKeyDown(int keyCode,KeyEvent event) {
+//
+//        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+//            //这里重写返回键
+//            Intent intent=new Intent(ResultActivity.this,HomeActivity.class);
+//            startActivity(intent);
+//        }
+//        return false;
+//    }
 
 
 

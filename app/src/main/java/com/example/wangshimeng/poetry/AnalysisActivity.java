@@ -181,8 +181,9 @@ public class AnalysisActivity extends AppCompatActivity {
     }
 
     public void returnToHistory(View v) {
-         Intent intent = new Intent(AnalysisActivity.this, HistoryActivity.class);
-        startActivity(intent);
+//         Intent intent = new Intent(AnalysisActivity.this, HistoryActivity.class);
+//        startActivity(intent);
+        onBackPressed();
     }
 
 }

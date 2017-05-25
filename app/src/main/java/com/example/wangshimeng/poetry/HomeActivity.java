@@ -19,6 +19,7 @@ import com.avos.avoscloud.ProgressCallback;
 import com.avos.avoscloud.feedback.FeedbackAgent;
 
 import Entity.SysApplication;
+import task.compressImage;
 import view.DrawCircleView;
 import view.MySeekBar;
 import view.SlideMenu;
@@ -28,12 +29,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private long exitTime = 0;
     private TextView txtHomeUserName,txtHomeScore,txtMenuSign,txtMenuScore,txtMenuUserName,txtHomePrecisionNumber;
     private MySeekBar txtHomePrecision;
-    private ImageView btn_back,img_myphpto;
+    private ImageView btn_back, img_myphoto;
     private SlideMenu slideMenu;
     private View layQuestionHistory;
     AVFile photo;
     Bitmap b;
-
+    MyLeanCloudApp myLeanCloudApp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,7 +45,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         layQuestionHistory=findViewById(R.id.layQuestionHistory);
         btn_back = (ImageView)findViewById(R.id.btn_back);
-        img_myphpto = (ImageView)findViewById(R.id.img_myphpto);
+        img_myphoto = (ImageView)findViewById(R.id.img_myphpto);
         slideMenu = (SlideMenu)findViewById(R.id.slideMenu);
 
         txtHomeUserName= (TextView) findViewById(R.id.txtHomeUserName);
@@ -61,8 +62,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 slideMenu.switchMenu();
             }
         });
-        img_myphpto.getBackground();
-
+//        img_myphoto.getBackground();
+        myLeanCloudApp= (MyLeanCloudApp) this.getApplication();
 
 
         layQuestionHistory.setOnClickListener(this);
@@ -82,29 +83,52 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         //txtHomePrecision.setEnabled(false);
         //System.out.println(AVUser.getCurrentUser().getString("user_precision"));
         // System.out.println((int)((Float.parseFloat(AVUser.getCurrentUser().getString("user_precision")))*100));
+
         txtHomePrecision.setProgress((int)(Float.parseFloat(AVUser.getCurrentUser().getString("user_precision"))*100));
 
 
         b=null;
         photo=null;
 
-        AVFile file=AVUser.getCurrentUser().getAVFile("photo");
-        file.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] bytes, AVException e) {
-                // bytes 就是文件的数据流
-                b=getPicFromBytes(bytes);
+        if(myLeanCloudApp.getBitmap()==null){
+            AVFile file=AVUser.getCurrentUser().getAVFile("photo");
+//       myLeanCloudApp.setFile(file);
+            if(file==null){
+                b = BitmapFactory.decodeResource(getResources(),R.drawable.touxiang);
+                compressImage.compressImage(b);
+                img_myphoto.setImageBitmap(DrawCircleView.drawCircleView01(b));
                 btn_back.setImageBitmap(DrawCircleView.drawCircleView01(b));
-                img_myphpto.setImageBitmap(DrawCircleView.drawCircleView01(b));
+                myLeanCloudApp.setBitmap(b);
+            }
+            else {
+                file.getThumbnailUrl(true, 100, 100);
+                file.getDataInBackground(new GetDataCallback() {
+                    @Override
+                    public void done(byte[] bytes, AVException e) {
+                        // bytes 就是文件的数据流
+                        Log.d("baos len",bytes.length+"");
+                        b = getPicFromBytes(bytes);
+                        compressImage.compressImage(b);
+                        btn_back.setImageBitmap(DrawCircleView.drawCircleView01(b));
+                        img_myphoto.setImageBitmap(DrawCircleView.drawCircleView01(b));
+                        myLeanCloudApp.setBitmap(b);
 //                Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.touxiang);
 //                btn_back.setImageBitmap(DrawCircleView.drawCircleView01(b));
+                    }
+                }, new ProgressCallback() {
+                    @Override
+                    public void done(Integer integer) {
+                        // 下载进度数据，integer 介于 0 和 100。
+                    }
+                });
             }
-        }, new ProgressCallback() {
-            @Override
-            public void done(Integer integer) {
-                // 下载进度数据，integer 介于 0 和 100。
-            }
-        });
+        }
+        else{
+            img_myphoto.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
+            btn_back.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
+        }
+
+
 
 
         txtHomePrecision.banClick(true);

@@ -355,7 +355,7 @@ private int type;
                                                             ("record_id", record.getObjectId());
 
                                                     GameActivity.this.startActivity(intent);
-
+                                                    GameActivity.this.finish();
                                                     // 存储成功
                                                     //System.out.println("jilu:" + record.getObjectId());
                                                 } else {
@@ -528,14 +528,14 @@ private int type;
         int a=random.nextInt(10);
         System.out.println("rand:"+a);
 //        int random=(int)(Math.random()*10);
-        if(type==1){
-            //现场模式
-            query1.whereEqualTo("question_set_id", a+11);
-        }
-        else{
-            query1.whereEqualTo("question_set_id", a+1);
-        }
-
+//        if(type==1){
+//            //现场模式
+//            query1.whereEqualTo("question_set_id", a+11);
+//        }
+//        else{
+//            query1.whereEqualTo("question_set_id", a+1);
+//        }
+        query1.whereEqualTo("question_set_id", 1);
 //        query1.whereEqualTo("question_set_id", a);
         query1.findInBackground(new FindCallback<AVObject>() {
             @Override

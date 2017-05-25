@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setClass(LoginActivity.this, HomeActivity.class);
                     LoginActivity.this.startActivity(intent);
+                    finish();
                 } else {
                     // 失败的原因可能有多种
                     Toast.makeText(getApplication(),"登录失败", Toast.LENGTH_SHORT).show();

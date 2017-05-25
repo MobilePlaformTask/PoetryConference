@@ -10,11 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVFile;
 import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.GetDataCallback;
-import com.avos.avoscloud.ProgressCallback;
 
 import java.util.List;
 
@@ -28,6 +25,7 @@ public class UserCenterActivity extends AppCompatActivity {
     private Uri uri;
     AVFile photo;
     Bitmap b;
+    MyLeanCloudApp myLeanCloudApp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,24 +36,42 @@ public class UserCenterActivity extends AppCompatActivity {
         txtCenterUserName= (TextView) findViewById(R.id.txtCenterUserName);
         imgCenterPhoto= (ImageView) findViewById(R.id.imgCenterPhoto);
 //        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.touxiang);
+        myLeanCloudApp= (MyLeanCloudApp) this.getApplication();
 
         b=null;
         photo=null;
 
-        AVFile file=AVUser.getCurrentUser().getAVFile("photo");
-        file.getDataInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] bytes, AVException e) {
-                // bytes 就是文件的数据流
-                b=getPicFromBytes(bytes);
-                imgCenterPhoto.setImageBitmap(DrawCircleView.drawCircleView01(b));
-            }
-        }, new ProgressCallback() {
-            @Override
-            public void done(Integer integer) {
-                // 下载进度数据，integer 介于 0 和 100。
-            }
-        });
+        imgCenterPhoto.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
+
+//        AVFile file=AVUser.getCurrentUser().getAVFile("photo");
+////        AVFile file=myLeanCloudApp.getFile();
+//
+//        if(file==null){
+//            b = BitmapFactory.decodeResource(getResources(),R.drawable.touxiang);
+//            compressImage com=new compressImage();
+//            b= com.compressImage(b);
+//            imgCenterPhoto.setImageBitmap(DrawCircleView.drawCircleView01(b));
+//        }
+//        else{
+//            Log.d("width",file.getSize()+"");
+//            file.getThumbnailUrl(true, 100, 100);
+//            file.getDataInBackground(new GetDataCallback() {
+//                @Override
+//                public void done(byte[] bytes, AVException e) {
+//                    //bytes 就是文件的数据流
+//                    Log.d("baos len",bytes.length+"");
+//                    b=getPicFromBytes(bytes);
+//                    compressImage com=new compressImage();
+//                    b= com.compressImage(b);
+//                    imgCenterPhoto.setImageBitmap(DrawCircleView.drawCircleView01(b));
+//                }
+//            }, new ProgressCallback() {
+//                @Override
+//                public void done(Integer integer) {
+//                    // 下载进度数据，integer 介于 0 和 100。
+//                }
+//            });
+//        }
 
         //设置值
         txtCenterScore.setText(AVUser.getCurrentUser().getInt("score")+"");
@@ -142,6 +158,7 @@ public class UserCenterActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setClass(this, HomeActivity.class);
         this.startActivity(intent);
+        finish();
     }
 }
 
