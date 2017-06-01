@@ -26,7 +26,7 @@ import view.DrawCircleView;
 import view.MySeekBar;
 import view.SlideMenu;
 
-public class HomeActivity extends AppCompatActivity implements View.OnClickListener,SeekBar.OnSeekBarChangeListener{
+public class HomeActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener{
 
     private long exitTime = 0;
     private TextView txtHomeUserName,txtHomeScore,txtMenuSign,txtMenuScore,txtMenuUserName,txtHomePrecisionNumber;
@@ -68,7 +68,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         myLeanCloudApp= (MyLeanCloudApp) this.getApplication();
 
 
-        layQuestionHistory.setOnClickListener(this);
+//        layQuestionHistory.setOnClickListener(this);
 
         //设置值
         AVFile photo=AVUser.getCurrentUser().getAVFile("phpto");
@@ -97,7 +97,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 //       myLeanCloudApp.setFile(file);
             if(file==null){
                 b = BitmapFactory.decodeResource(getResources(),R.drawable.touxiang);
-                compressImage.compressImage(b);
+                b=compressImage.comp(b);
                 img_myphoto.setImageBitmap(DrawCircleView.drawCircleView01(b));
                 btn_back.setImageBitmap(DrawCircleView.drawCircleView01(b));
                 myLeanCloudApp.setBitmap(b);
@@ -156,15 +156,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
-    @Override
-    public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.layQuestionHistory:
-                Intent intent=new Intent(HomeActivity.this,HistoryActivity.class);
-                this.startActivity(intent);
-                break;
-        }
+
+
+    public void gotoHistory(View v){
+        Intent intent=new Intent(HomeActivity.this,HistoryActivity.class);
+        this.startActivity(intent);
     }
+
     //将字节数组转换为ImageView可调用的Bitmap对象
     public static Bitmap getPicFromBytes(byte[] bytes) {
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
@@ -234,9 +232,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     public void goToCenter(View view){
         Intent intent = new Intent();
         intent.setClass(this, UserCenterActivity.class);
-        this.startActivity(intent);
+//        this.startActivity(intent);
+        startActivityForResult(intent, 1);
 //        finish();
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==2)//通过请求码(去SActivity)和回传码（回传数据到第一个页面）判断回传的页面
+        {
+            img_myphoto.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
+            btn_back.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
+        }
+
+
+    }
+
+
+
 
     //拖动中
     @Override

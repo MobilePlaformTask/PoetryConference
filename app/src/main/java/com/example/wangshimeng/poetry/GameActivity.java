@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
@@ -544,7 +543,7 @@ public class GameActivity extends AppCompatActivity {
     //检查答案
     public void CheckAnswer(String answer) {
         if (answer.equals(currentQuestion.get("answer"))) {
-            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
         } else {
             //将错误信息存储起来
             Mistakes mistake = new Mistakes();
@@ -555,7 +554,7 @@ public class GameActivity extends AppCompatActivity {
             System.out.println();
             System.out.println(currentQuestion.getInt("question_number") + mistakeCount + "");
             mistakeCount++;
-            Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "false", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -576,7 +575,7 @@ public class GameActivity extends AppCompatActivity {
         else{
             query1.whereEqualTo("question_set_id", a+1);
         }
-//        query1.whereEqualTo("question_set_id", 1);
+//        query1.whereEqualTo("question_set_id", 10);
 
         query1.findInBackground(new FindCallback<AVObject>() {
             @Override

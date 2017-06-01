@@ -19,7 +19,6 @@ import view.DrawCircleView;
 import view.SelectDialog;
 
 public class UserCenterActivity extends AppCompatActivity {
-
     private TextView txtCenterPrecision,txtCenterScore,txtCenterSign,txtCenterUserName;
     private ImageView imgCenterPhoto;
     private Uri uri;
@@ -150,7 +149,8 @@ public class UserCenterActivity extends AppCompatActivity {
 
         Intent intent = new Intent();
        intent.setClass(this,EditUserInfoActivity.class);
-        this.startActivity(intent);
+//        this.startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     //返回
@@ -159,7 +159,23 @@ public class UserCenterActivity extends AppCompatActivity {
 //        intent.setClass(this, HomeActivity.class);
 //        this.startActivity(intent);
 //        finish();
-        onBackPressed();
+//        onBackPressed();
+
+        Intent  data =new Intent();//只是回传数据就不用写跳转对象
+        setResult(2);//返回data，2为result，data为intent对象
+        finish();//页面销毁
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==2)//通过请求码(去SActivity)和回传码（回传数据到第一个页面）判断回传的页面
+        {
+            imgCenterPhoto.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
+        }
+
+
     }
 
 //    @Override

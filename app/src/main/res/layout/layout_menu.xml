@@ -103,6 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#ffffff"
+        android:onClick="gotoHistory"
         android:gravity="center">
 
         <ImageView
@@ -125,6 +126,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="#ffffff"
+        android:onClick="changePassword"
         android:gravity="center">
 
         <ImageView
@@ -132,18 +134,20 @@
             android:layout_height="24dp"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
+
             android:src="@drawable/changepass" />
 
         <TextView
             style="@style/MenuTabText"
             android:text="修改密码"
-            android:onClick="changePassword"
+
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:onClick="contactUs"
         android:background="#ffffff"
         android:gravity="center">
 
@@ -157,7 +161,7 @@
         <TextView
             style="@style/MenuTabText"
             android:text="联系我们"
-            android:onClick="contactUs"/>
+            />
     </LinearLayout>
 
 
@@ -166,6 +170,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:background="#ffffff"
+        android:onClick="goToCenter"
         android:gravity="center">
 
         <ImageView
@@ -178,7 +183,7 @@
         <TextView
             style="@style/MenuTabText"
             android:text="个人中心"
-            android:onClick="goToCenter"
+
             />
     </LinearLayout>
 

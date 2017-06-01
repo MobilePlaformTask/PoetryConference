@@ -19,7 +19,7 @@ import java.util.List;
 public class AnalysisActivity extends AppCompatActivity {
 
     private Button btnLastQuestion, btnNextQuestion;
-    private TextView txtAnalysisQuestion, txtTrueAnswer, txtFalseAnswer, txtAnalysis, txtAnalysisQuestionName;
+    private TextView txtAnalysisQuestion, txtTrueAnswer, txtFalseAnswer, txtAnalysis, txtAnalysisQuestionName,txtAnalysisQuestionInfo;
     private List<AVObject> questionList = new ArrayList<AVObject>(); //题目列表
     private List<AVObject> mistakeList = new ArrayList<AVObject>(); //错题列表
     private int currentQuestionId = 0;//当前显示的题号
@@ -38,7 +38,7 @@ public class AnalysisActivity extends AppCompatActivity {
         btnNextQuestion = (Button) findViewById(R.id.btnNextQuestion);
         btnLastQuestion.setEnabled(false);
         txtAnalysisQuestionName = (TextView) findViewById(R.id.txtAnalysisQuestionName);
-
+        txtAnalysisQuestionInfo= (TextView) findViewById(R.id.txtAnalysisQuestionInfo);
         //接收参数   record的id
 
 
@@ -143,9 +143,18 @@ public class AnalysisActivity extends AppCompatActivity {
                 break;
         }
 
+        if(currentQuestion.getInt("type_id")==1){
+            String note[]=currentQuestion.getString("note").split(" ");
+            txtAnalysisQuestion.setText(currentQuestion.getString("question_content")+"\n\n"+note[0]+"\n"+note[1]+"\n"+note[2]);
+//            txtAnalysisQuestionInfo.setText(note[0]+"\n"+note[1]+"\n"+note[2]);
+        }
+        else{
+//            txtAnalysisQuestionInfo.setText("");
+            txtAnalysisQuestion.setText(currentQuestion.getString("question_content"));
+        }
 
         txtAnalysisQuestionName.setText(currentQuestion.getInt("question_number") + "." + type);
-        txtAnalysisQuestion.setText(currentQuestion.getString("question_content"));
+//        txtAnalysisQuestion.setText(currentQuestion.getString("question_content"));
         txtTrueAnswer.setText(currentQuestion.getString("answer"));
         txtFalseAnswer.setText(currentQuestion.getString("answer"));
         txtAnalysis.setText(currentQuestion.getString("analysis"));

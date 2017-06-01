@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 import task.StringUtil;
+import task.compressImage;
 import view.DrawCircleView;
 import view.SelectDialog;
 
@@ -111,6 +112,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
 //        AVUser.getCurrentUser().put("photo", photo);
 //        myLeanCloudApp= (MyLeanCloudApp) this.getApplication();
         AVUser.getCurrentUser().put("photo", photo);
+        b= compressImage.comp(b);
         AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
             public void done(AVException e) {
@@ -121,7 +123,12 @@ public class EditUserInfoActivity extends AppCompatActivity {
 //                    intent.setClass(EditUserInfoActivity.this, HomeActivity.class);
 //                    EditUserInfoActivity.this.startActivity(intent);
 //                    finish();
-                    onBackPressed();
+
+                    Intent  data =new Intent();//只是回传数据就不用写跳转对象
+                    setResult(2);//返回data，2为result，data为intent对象
+                    finish();//页面销毁
+
+//                    onBackPressed();
                 }
             }
         });
@@ -135,6 +142,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
 //        this.startActivity(intent);
 //        finish();
         onBackPressed();
+
     }
 
     private SelectDialog showDialog(SelectDialog.SelectDialogListener listener, List<String> names) {
@@ -160,7 +168,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     case 0: // 直接调起相机
 
                         dispatchTakePictureIntent();
-
+                        Log.d("12344","start");
 //                        String sdPath= Environment.getExternalStorageDirectory().getPath();
 //                        String fileName=sdPath+"/myphoto/"+System.currentTimeMillis()+".jpg";
 //                        uri= Uri.fromFile(new File(fileName));
@@ -267,6 +275,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
 
     private void dispatchTakePictureIntent() {
+        Log.d("12344","12344");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -279,6 +288,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
+                Log.d("123445",photoFile.getAbsolutePath());
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.wangshimeng.poetry",
                         photoFile);
@@ -307,48 +317,20 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("12344",resultCode+""+requestCode);
         if (requestCode == 1) {
             if (RESULT_OK == resultCode) {
-//                    Log.d(LOG_TAG, "RESULT_OK");
-//
-//                        Log.d(LOG_TAG,
-//                                "data IS null, file saved on target position.");
-//                        // If there is no thumbnail image data, the image
-//                        // will have been stored in the target output URI.
-//
-//                        // Resize the full image to fit in out image view.
-//                        int width = imgUserInfoPhoto.getWidth();
-//                        int height = imgUserInfoPhoto.getHeight();
-//
-//                        BitmapFactory.Options factoryOptions = new BitmapFactory.Options();
-//
-//                        factoryOptions.inJustDecodeBounds = true;
-//                        BitmapFactory.decodeFile(uri.getPath(), factoryOptions);
-//
-//                        int imageWidth = factoryOptions.outWidth;
-//                        int imageHeight = factoryOptions.outHeight;
-//
-//                        // Determine how much to scale down the image
-//                        int scaleFactor = Math.min(imageWidth / width, imageHeight
-//                                / height);
-//
-//                        // Decode the image file into a Bitmap sized to fill the
-//                        // View
-//                        factoryOptions.inJustDecodeBounds = false;
-//                        factoryOptions.inSampleSize = scaleFactor;
-//                        factoryOptions.inPurgeable = true;
-//
-//                        Bitmap bitmap = BitmapFactory.decodeFile(uri.getPath(),
-//                                factoryOptions);
+
                 galleryAddPic();
                 setPic();
+//                uri = data.getData();
 
 //                System.out.println(Environment.getExternalStorageDirectory() + uri.getPath());
 //                Toast.makeText(EditUserInfoActivity.this, uri.toString(), Toast.LENGTH_SHORT).show();
                 String photoPath = mCurrentPhotoPath;
                 System.out.println("photoPath"+photoPath);
                 try {
-                    photo = AVFile.withAbsoluteLocalPath("LeanCloud"+AVUser.getCurrentUser().getUsername()+".png", photoPath);
+                    photo = AVFile.withAbsoluteLocalPath("LeanCloud"+AVUser.getCurrentUser().getUsername()+System.currentTimeMillis()+".png", photoPath);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -413,7 +395,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     setPic();
 
                     System.out.println(photoPath);
-                    photo = AVFile.withAbsoluteLocalPath("LeanCloud"+AVUser.getCurrentUser().getUsername()+".png", photoPath);
+                    photo = AVFile.withAbsoluteLocalPath("LeanCloud"+AVUser.getCurrentUser().getUsername()+System.currentTimeMillis()+".png", photoPath);
                     photo.addMetaData("width", 100);
                     photo.addMetaData("height", 100);
                     photo.saveInBackground(new SaveCallback() {
@@ -439,7 +421,9 @@ public class EditUserInfoActivity extends AppCompatActivity {
     private void galleryAddPic() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(mCurrentPhotoPath);
+        Log.d("12344",""+"2:"+f.length());
         Uri contentUri = Uri.fromFile(f);
+        Log.d("12344",""+"1:"+contentUri.getPath());
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
     }
@@ -465,6 +449,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
         bmOptions.inPurgeable = true;
 
         b = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        Log.d("12344",""+mCurrentPhotoPath+"123");
+        Log.d("12344",""+b.getWidth()+"---123---"+b.getHeight());
         imgUserInfoPhoto.setImageBitmap(DrawCircleView.drawCircleView01(b));
 
 

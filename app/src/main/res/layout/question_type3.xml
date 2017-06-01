@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/poem01">
+    android:background="@drawable/poem01"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,28 +13,30 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/returnn"
             android:layout_gravity="center_vertical"
-            android:onClick="giveup"
-            android:layout_marginLeft="16dp"/>
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/returnn"
+            android:onClick="giveup" />
+
         <TextView
+            android:id="@id/txtNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="130dp"
             android:text="1/10"
             android:textColor="#ffffff"
-            android:textSize="20sp"
-            android:layout_marginLeft="130dp"
-            android:id="@id/txtNumber"/>
+            android:textSize="20sp" />
+
         <TextView
             android:id="@id/stateprogress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="110dp"
             android:text="0:59"
-            android:textSize="20sp"
             android:textColor="#ffffff"
-            android:layout_marginLeft="110dp"/>
+            android:textSize="20sp" />
     </LinearLayout>
 
 
@@ -53,13 +55,13 @@
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"/>
+            android:layout_marginTop="40dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@id/txtQuestionNumber"
@@ -70,128 +72,157 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:text="点字成诗"
-                android:textSize="16sp"
-                android:layout_marginLeft="16dp"/>
+                android:textSize="16sp" />
 
-            </LinearLayout>
+        </LinearLayout>
 
-        <GridLayout
+        <LinearLayout
             android:layout_width="240dp"
             android:layout_height="180dp"
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="40dp"
-            android:columnCount="4"
-            android:rowCount="3">
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/Word1"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/Word2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
+                <Button
+                    android:id="@+id/Word1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
 
-            <Button
-                android:id="@+id/Word3"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
+                <Button
+                    android:id="@+id/Word2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
 
-            <Button
-                android:id="@+id/Word4"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
+                <Button
+                    android:id="@+id/Word3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
 
-            <Button
-                android:id="@+id/Word5"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
+                <Button
+                    android:id="@+id/Word4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
 
-            <Button
-                android:id="@+id/Word6"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
 
-            <Button
-                android:id="@+id/Word7"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/Word8"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
 
-            <Button
-                android:id="@+id/Word9"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
-            <Button
-                android:id="@+id/Word10"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
-            <Button
-                android:id="@+id/Word11"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
-            <Button
-                android:id="@+id/Word12"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
-                android:background="@drawable/border" />
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
 
-        </GridLayout>
+                <Button
+                    android:id="@+id/Word5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
+
+                <Button
+                    android:id="@+id/Word6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
+
+                <Button
+                    android:id="@+id/Word7"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
+
+                <Button
+                    android:id="@+id/Word8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/Word9"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
+
+                <Button
+                    android:id="@+id/Word10"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
+
+                <Button
+                    android:id="@+id/Word11"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
+
+                <Button
+                    android:id="@+id/Word12"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/border" />
+            </LinearLayout>
+        </LinearLayout>
+        <!--<GridLayout-->
+        <!--android:layout_width="240dp"-->
+        <!--android:layout_height="180dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginBottom="24dp"-->
+        <!--android:layout_marginTop="40dp"-->
+        <!--android:columnCount="4"-->
+        <!--android:rowCount="3">-->
+
+        <!---->
+        <!---->
+
+        <!---->
+
+        <!--</GridLayout>-->
 
         <EditText
             android:id="@+id/txtQuestionAnswer3"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:visibility="invisible"
-            android:hint="组合诗句" />
+            android:hint="组合诗句"
+            android:visibility="invisible" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:gravity="center"
             android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <Button
@@ -228,12 +259,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/border" />
+
             <Button
                 android:id="@+id/Ans6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/border" />
+
             <Button
                 android:id="@+id/Ans7"
                 android:layout_width="0dp"
@@ -247,11 +280,11 @@
             android:id="@+id/btnCancelAns3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/buttonstyle"
             android:onClick="cancelWord3"
             android:text="删除"
-            android:textColor="#3393e7"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/buttonstyle"/>
+            android:textColor="#3393e7" />
 
 
     </LinearLayout>
