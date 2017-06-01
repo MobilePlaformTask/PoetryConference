@@ -187,25 +187,25 @@
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#ffffff"
-        android:gravity="center">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:background="#ffffff"-->
+        <!--android:gravity="center">-->
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            android:src="@drawable/anoutus" />
+        <!--<ImageView-->
+            <!--android:layout_width="24dp"-->
+            <!--android:layout_height="24dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:src="@drawable/anoutus" />-->
 
-        <TextView
-            style="@style/MenuTabText"
-            android:text="关于我们"
+        <!--<TextView-->
+            <!--style="@style/MenuTabText"-->
+            <!--android:text="关于我们"-->
 
-            />
-    </LinearLayout>
+            <!--/>-->
+    <!--</LinearLayout>-->
 
     <TextView
         android:id="@+id/textView2"
