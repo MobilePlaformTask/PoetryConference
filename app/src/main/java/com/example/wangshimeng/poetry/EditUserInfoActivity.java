@@ -49,6 +49,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
     MyLeanCloudApp myLeanCloudApp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         edtEditSign.setText(AVUser.getCurrentUser().getString("signature"));
         b = null;
         photo = null;
-        myLeanCloudApp= (MyLeanCloudApp) this.getApplication();
+        myLeanCloudApp = (MyLeanCloudApp) this.getApplication();
         imgUserInfoPhoto.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
 
 //        AVFile file = AVUser.getCurrentUser().getAVFile("photo");
@@ -111,28 +112,29 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
 //        AVUser.getCurrentUser().put("photo", photo);
 //        myLeanCloudApp= (MyLeanCloudApp) this.getApplication();
-        AVUser.getCurrentUser().put("photo", photo);
-        b= compressImage.comp(b);
-        AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
-            @Override
-            public void done(AVException e) {
-                if (e == null) {
-                    myLeanCloudApp.setBitmap(b);
+        if (photo != null) {
+            AVUser.getCurrentUser().put("photo", photo);
+            b = compressImage.comp(b);
+            AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+                    if (e == null) {
+                        myLeanCloudApp.setBitmap(b);
 
 //                    Intent intent = new Intent();
 //                    intent.setClass(EditUserInfoActivity.this, HomeActivity.class);
 //                    EditUserInfoActivity.this.startActivity(intent);
 //                    finish();
 
-                    Intent  data =new Intent();//只是回传数据就不用写跳转对象
-                    setResult(2);//返回data，2为result，data为intent对象
-                    finish();//页面销毁
-
 //                    onBackPressed();
+                    }
                 }
-            }
-        });
-
+            });
+        } else {
+            Intent data = new Intent();//只是回传数据就不用写跳转对象
+            setResult(2);//返回data，2为result，data为intent对象
+            finish();//页面销毁
+        }
     }
 
     //返回用户中心
@@ -168,7 +170,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     case 0: // 直接调起相机
 
                         dispatchTakePictureIntent();
-                        Log.d("12344","start");
+                        Log.d("12344", "start");
 //                        String sdPath= Environment.getExternalStorageDirectory().getPath();
 //                        String fileName=sdPath+"/myphoto/"+System.currentTimeMillis()+".jpg";
 //                        uri= Uri.fromFile(new File(fileName));
@@ -178,7 +180,6 @@ public class EditUserInfoActivity extends AppCompatActivity {
 //                        uri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
 //                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 //                        startActivityForResult(intent, 1);
-
 
 
                         // create a file to save the image
@@ -273,9 +274,8 @@ public class EditUserInfoActivity extends AppCompatActivity {
     }
 
 
-
     private void dispatchTakePictureIntent() {
-        Log.d("12344","12344");
+        Log.d("12344", "12344");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -288,7 +288,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                Log.d("123445",photoFile.getAbsolutePath());
+                Log.d("123445", photoFile.getAbsolutePath());
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.wangshimeng.poetry",
                         photoFile);
@@ -317,7 +317,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("12344",resultCode+""+requestCode);
+        Log.d("12344", resultCode + "" + requestCode);
         if (requestCode == 1) {
             if (RESULT_OK == resultCode) {
 
@@ -328,9 +328,9 @@ public class EditUserInfoActivity extends AppCompatActivity {
 //                System.out.println(Environment.getExternalStorageDirectory() + uri.getPath());
 //                Toast.makeText(EditUserInfoActivity.this, uri.toString(), Toast.LENGTH_SHORT).show();
                 String photoPath = mCurrentPhotoPath;
-                System.out.println("photoPath"+photoPath);
+                System.out.println("photoPath" + photoPath);
                 try {
-                    photo = AVFile.withAbsoluteLocalPath("LeanCloud"+AVUser.getCurrentUser().getUsername()+System.currentTimeMillis()+".png", photoPath);
+                    photo = AVFile.withAbsoluteLocalPath("LeanCloud" + AVUser.getCurrentUser().getUsername() + System.currentTimeMillis() + ".png", photoPath);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -391,11 +391,11 @@ public class EditUserInfoActivity extends AppCompatActivity {
                     Toast.makeText(EditUserInfoActivity.this, uri.toString(), Toast.LENGTH_SHORT).show();
                     String photoPath = StringUtil.getRealPathFromURI(getApplicationContext(), uri);
 
-                    mCurrentPhotoPath=photoPath;
+                    mCurrentPhotoPath = photoPath;
                     setPic();
 
                     System.out.println(photoPath);
-                    photo = AVFile.withAbsoluteLocalPath("LeanCloud"+AVUser.getCurrentUser().getUsername()+System.currentTimeMillis()+".png", photoPath);
+                    photo = AVFile.withAbsoluteLocalPath("LeanCloud" + AVUser.getCurrentUser().getUsername() + System.currentTimeMillis() + ".png", photoPath);
                     photo.addMetaData("width", 100);
                     photo.addMetaData("height", 100);
                     photo.saveInBackground(new SaveCallback() {
@@ -414,16 +414,12 @@ public class EditUserInfoActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
     private void galleryAddPic() {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(mCurrentPhotoPath);
-        Log.d("12344",""+"2:"+f.length());
+        Log.d("12344", "" + "2:" + f.length());
         Uri contentUri = Uri.fromFile(f);
-        Log.d("12344",""+"1:"+contentUri.getPath());
+        Log.d("12344", "" + "1:" + contentUri.getPath());
         mediaScanIntent.setData(contentUri);
         this.sendBroadcast(mediaScanIntent);
     }
@@ -441,7 +437,7 @@ public class EditUserInfoActivity extends AppCompatActivity {
         int photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW/targetW, photoH/targetH);
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
@@ -449,10 +445,9 @@ public class EditUserInfoActivity extends AppCompatActivity {
         bmOptions.inPurgeable = true;
 
         b = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        Log.d("12344",""+mCurrentPhotoPath+"123");
-        Log.d("12344",""+b.getWidth()+"---123---"+b.getHeight());
+        Log.d("12344", "" + mCurrentPhotoPath + "123");
+        Log.d("12344", "" + b.getWidth() + "---123---" + b.getHeight());
         imgUserInfoPhoto.setImageBitmap(DrawCircleView.drawCircleView01(b));
-
 
 
 //        imgUserInfoPhoto.setImageBitmap(bitmap);
