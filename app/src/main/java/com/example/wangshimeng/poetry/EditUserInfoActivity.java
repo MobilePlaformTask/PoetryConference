@@ -120,20 +120,26 @@ public class EditUserInfoActivity extends AppCompatActivity {
                 public void done(AVException e) {
                     if (e == null) {
                         myLeanCloudApp.setBitmap(b);
-
-//                    Intent intent = new Intent();
-//                    intent.setClass(EditUserInfoActivity.this, HomeActivity.class);
-//                    EditUserInfoActivity.this.startActivity(intent);
-//                    finish();
-
-//                    onBackPressed();
+                        Intent data = new Intent();//只是回传数据就不用写跳转对象
+                        setResult(2);//返回data，2为result，data为intent对象
+                        finish();//页面销毁
                     }
                 }
             });
         } else {
-            Intent data = new Intent();//只是回传数据就不用写跳转对象
-            setResult(2);//返回data，2为result，data为intent对象
-            finish();//页面销毁
+            AVUser.getCurrentUser().saveInBackground(new SaveCallback() {
+                @Override
+                public void done(AVException e) {
+                    if (e == null) {
+                     Intent data = new Intent();//只是回传数据就不用写跳转对象
+                        setResult(2);//返回data，2为result，data为intent对象
+                        finish();//页面销毁
+                    }
+                }
+            });
+
+
+
         }
     }
 

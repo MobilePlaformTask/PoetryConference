@@ -173,8 +173,11 @@ public class UserCenterActivity extends AppCompatActivity {
         if (requestCode==1&&resultCode==2)//通过请求码(去SActivity)和回传码（回传数据到第一个页面）判断回传的页面
         {
             imgCenterPhoto.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
-        }
 
+            txtCenterUserName.setText(AVUser.getCurrentUser().getString("username"));
+            txtCenterSign.setText(AVUser.getCurrentUser().getString("signature"));
+
+        }
 
     }
 

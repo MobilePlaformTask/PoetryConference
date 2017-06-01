@@ -245,6 +245,14 @@ public class HomeActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         {
             img_myphoto.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
             btn_back.setImageBitmap(DrawCircleView.drawCircleView01(myLeanCloudApp.getBitmap()));
+
+
+
+            txtHomeUserName.setText(AVUser.getCurrentUser().getString("username"));
+            txtMenuUserName.setText(AVUser.getCurrentUser().getString("username"));
+            txtMenuSign.setText(AVUser.getCurrentUser().getString("signature"));
+
+
         }
 
 
